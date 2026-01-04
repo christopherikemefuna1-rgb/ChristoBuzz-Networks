@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ChristoBuzz Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <div id="auth-section">
+    <h1>ChristoBuzz</h1>
+    <input type="text" id="username" placeholder="Username">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Log In</button>
+    <button onclick="signup()">Create Account</button>
+    <div id="msg"></div>
+  </div>
+
+  <div id="post-section" style="display:none;">
+    <textarea id="post-content" placeholder="What's on your mind?"></textarea>
+    <button onclick="sendPost()">Post</button>
+    <div id="feed-posts"></div>
+  </div>
+
+  <script type="module" src="./supabase.js"></script>
+  <script type="module" src="./main.js"></script>
+  <script type="module" src="./posts.js"></script>
+  <script type="module" src="./messages.js"></script>
+  <script type="module" src="./marketplace.js"></script>
+</body>
+</html>
