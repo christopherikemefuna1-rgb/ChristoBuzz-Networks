@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐝 ChristoBuzz Marketplace</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: #f0f2f5; color: #111; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; }
+    
+    #app { max-width: 420px; margin: 0 auto; min-height: 100vh; background: #fff; padding: 12px; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+    .logo { font-size: 20px; font-weight: 700; color: #f5b301; }
+    .logo span { color: #111; }
+
+    .product-form { margin-bottom: 16px; padding: 12px; background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);}
+    .product-form input { width: 100%; padding: 10px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #ccc; }
+    .product-form button { width: 100%; padding: 12px; border-radius: 8px; background: #f5b301; font-weight: 600; }
+
+    .product-list .product { padding: 12px; margin-bottom: 12px; background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .product-list .product strong { display: block; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <header>
+    <div class="logo">🐝 <span>ChristoBuzz</span></div>
+  </header>
+
+  <section class="product-form">
+    <h2>Add Product</h2>
+    <input type="text" id="productName" placeholder="Product Name">
+    <input type="number" id="productPrice" placeholder="Price in USD">
+    <button id="addProductBtn">Add Product</button>
+  </section>
+
+  <section class="product-list" id="productList">
+    <!-- Products will appear here -->
+  </section>
+
+</div>
+
+<script type="module" src="./marketplace.js"></script>
+</body>
+  </html>
