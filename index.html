@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🐝 ChristoBuzz</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+body { background:#f0f2f5; color:#111; }
+button { cursor:pointer; border:none; }
+.hidden { display:none; }
+
+/* HEADER */
+header { background:#fff; border-bottom:1px solid #ddd; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;}
+.logo { font-size:20px; font-weight:700; color:#f5b301;}
+.logo span { color:#111; }
+
+/* APP WRAPPER */
+#app { max-width:420px; margin:0 auto; min-height:100vh; background:#fff; }
+
+/* AUTH */
+.auth { padding:24px; }
+.auth h2 { margin-bottom:12px; }
+.auth input { width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; }
+.auth button { width:100%; padding:12px; border-radius:8px; background:#f5b301; font-weight:600; }
+.switch-auth { text-align:center; margin-top:12px; color:#555; font-size:14px; }
+.auth input[type="file"] { padding:4px; }
+
+/* FEED */
+.feed { padding:12px; }
+.post-box, .post { background:#fff; border-radius:12px; padding:12px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+.post-box textarea { width:100%; border:none; resize:none; outline:none; }
+
+/* PROFILE */
+.profile { padding:12px; }
+.profile-header { display:flex; align-items:center; margin-bottom:12px; }
+.profile-pic { width:70px; height:70px; border-radius:50%; object-fit:cover; margin-right:12px; }
+.profile-name { font-weight:700; font-size:18px; }
+.profile-stats { display:flex; justify-content:space-around; margin-top:12px; }
+.profile-stats div { text-align:center; }
+.profile-posts { margin-top:12px; }
+
+/* BOTTOM NAV */
+nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; padding:10px 0; }
+nav button { background:none; font-size:14px; font-weight:600; color:#555; }
+nav button.active { color:#f5b301; }
+</style>
+</head>
+
+<body>
+<div id="app">
+
+  <header>
+    <div class="logo">🐝 <span>ChristoBuzz</span></div>
+  </header>
+
+  <!-- LOGIN -->
+  <section id="loginView" class="auth">
+    <h2>Welcome back</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button id="loginBtn">Log In</button>
+    <div class="switch-auth">No account? <a href="#" id="goSignup">Sign up</a></div>
+  </section>
+
+  <!-- SIGNUP -->
+  <section id="signupView" class="auth hidden">
+    <h2>Create account</h2>
+    <input type="text" id="signupUsername" placeholder="Username">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPassword" placeholder="Password">
+    <input type="file" id="signupProfilePic">
+    <button id="signupBtn">Sign Up</button>
+    <div class="switch-auth">Already have an account? <a href="#" id="goLogin">Log in</a></div>
+  </section>
+
+  <!-- FEED -->
+  <section id="feedView" class="feed hidden">
+    <div class="post-box">
+      <textarea id="newPostContent" placeholder="What’s buzzing? 🐝"></textarea>
+      <button id="postBtn" style="margin-top:8px;">Post</button>
+    </div>
+    <div id="feedPosts"></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profileView" class="profile hidden">
+    <div class="profile-header">
+      <img src="" id="profilePic" class="profile-pic" alt="Profile">
+      <div>
+        <div class="profile-name" id="profileUsername">Username</div>
+        <div class="profile-bio" id="profileBio">This is your bio.</div>
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div><strong id="postsCount">0</strong><br>Posts</div>
+      <div><strong id="followersCount">0</strong><br>Followers</div>
+      <div><strong id="followingCount">0</strong><br>Following</div>
+    </div>
+    <div class="profile-posts" id="profilePosts"></div>
+  </section>
+
+</div>
+
+<nav id="bottomNav" class="hidden">
+  <button id="homeBtn" class="active">Home</button>
+  <button id="messagesBtn">Messages</button>
+  <button id="marketplaceBtn">Marketplace</button>
+  <button id="profileBtn">Profile</button>
+</nav>
+
+<script type="module" src="main.js"></script>
+</body>
+  </html>
