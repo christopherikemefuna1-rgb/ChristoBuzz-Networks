@@ -1,197 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🐝 ChristoBuzz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChristoBuzz</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background: #f0f2f5; color: #111; }
+    body {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+    }
 
-    #app {
-      max-width: 420px;
-      margin: auto;
+    .view {
+      display: none;
+      padding: 16px;
       min-height: 100vh;
-      background: #fff;
-      padding-bottom: 60px;
     }
 
-    header {
-      background: #fff;
-      padding: 12px 16px;
-      border-bottom: 1px solid #ddd;
-      font-weight: 700;
-      font-size: 22px;
-      color: #f5b301;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .view.active {
+      display: block;
     }
 
-    section { padding: 16px; }
-    .hidden { display: none; }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      background: #f5b301;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    a { color: #f5b301; text-decoration: none; }
-
-    /* ===== FEED ===== */
-    #feedView textarea {
-      border-radius: 12px;
-      resize: none;
-      font-size: 14px;
-    }
-
-    .feed-post {
-      background: #fff;
-      border-radius: 16px;
-      padding: 12px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
-    .feed-post img {
-      width: 100%;
-      border-radius: 12px;
-      margin-top: 8px;
-    }
-
-    /* ===== PROFILE ===== */
-    #profileView {
-      text-align: center;
-    }
-
-    #profileView .profile-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 12px;
-      border: 3px solid #f5b301;
-    }
-
-    #myPosts {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    #myPosts .feed-post {
-      padding: 8px;
-    }
-
-    /* ===== NAVIGATION ===== */
-    nav {
+    /* Bottom Nav */
+    .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
+      height: 60px;
+      background: #111;
       display: flex;
       justify-content: space-around;
-      background: #fff;
-      border-top: 1px solid #ddd;
-      padding: 10px 0;
+      align-items: center;
+      border-top: 1px solid #222;
     }
 
-    nav button {
+    .bottom-nav button {
       background: none;
       border: none;
-      font-weight: 600;
-      color: #555;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 12px;
+      color: #aaa;
+      font-size: 14px;
     }
 
-    nav button.active { color: #f5b301; }
+    .bottom-nav button.active {
+      color: #f5b301;
+      font-weight: 600;
+    }
 
-    nav i {
-      font-size: 20px;
-      margin-bottom: 2px;
+    /* TikTok-style posts */
+    .video-post {
+      height: 85vh;
+      background: #000;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 18px;
+    }
+
+    /* AI Chat */
+    .chat-box {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-radius: 14px;
+      max-width: 80%;
+    }
+
+    .user {
+      background: #f5b301;
+      color: #000;
+      margin-left: auto;
+    }
+
+    .ai {
+      background: #222;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      margin-top: 10px;
     }
   </style>
 </head>
 
 <body>
-<div id="app">
 
-  <header>🐝 ChristoBuzz</header>
-
-  <!-- LOGIN -->
-  <section id="loginView">
-    <h2>Welcome back</h2>
-    <input id="loginEmail" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button id="loginBtn">Log In</button>
-    <p style="margin-top:10px;">No account? <a href="#" id="goSignup">Sign up</a></p>
-  </section>
-
-  <!-- SIGNUP -->
-  <section id="signupView" class="hidden">
-    <h2>Create account</h2>
-    <input id="signupUsername" placeholder="Username">
-    <input id="signupEmail" placeholder="Email">
-    <input id="signupPassword" type="password" placeholder="Password">
-    <button id="signupBtn">Sign Up</button>
-    <p style="margin-top:10px;">Already have an account? <a href="#" id="goLogin">Log in</a></p>
-  </section>
-
-  <!-- FEED -->
-  <section id="feedView" class="hidden">
-    <textarea id="newPostText" placeholder="What’s buzzing? 🐝"></textarea>
-    <button id="addPostBtn">Post</button>
-    <div id="feedPosts"></div>
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profileView" class="hidden">
-    <img id="profileAvatar" class="profile-avatar" src="" alt="Avatar">
-    <h3 id="profileUsername"></h3>
-    <p id="profileBio"></p>
-    <h4>My Posts</h4>
-    <div id="myPosts"></div>
-  </section>
-
-  <!-- PLACEHOLDERS -->
-  <section id="messagesView" class="hidden"><p>Messages coming soon...</p></section>
-  <section id="marketplaceView" class="hidden"><p>Marketplace coming soon...</p></section>
-
+<!-- HOME -->
+<div id="homeView" class="view active">
+  <h2>Home</h2>
+  <p>Feed coming next phase</p>
 </div>
 
-<nav id="bottomNav" class="hidden">
-  <button data-view="feedView" class="active"><i class="fas fa-home"></i>Home</button>
-  <button data-view="messagesView"><i class="fas fa-comment-dots"></i>Messages</button>
-  <button data-view="marketplaceView"><i class="fas fa-store"></i>Marketplace</button>
-  <button data-view="profileView"><i class="fas fa-user"></i>Profile</button>
-</nav>
+<!-- POSTS (TikTok style) -->
+<div id="postsView" class="view">
+  <div class="video-post">
+    Vertical Video Feed (TikTok Style)
+  </div>
+</div>
+
+<!-- AI -->
+<div id="aiView" class="view">
+  <h2>🤖 Crystal AI</h2>
+
+  <div class="chat-box" id="chatBox">
+    <div class="message ai">
+      Hi 👋 I’m Crystal AI. Ask me anything.
+    </div>
+  </div>
+
+  <input id="aiInput" placeholder="Ask Crystal AI..." />
+</div>
+
+<!-- PROFILE -->
+<div id="profileView" class="view">
+  <h2>Profile</h2>
+  <p>Your profile file will connect here.</p>
+</div>
+
+<!-- NAV -->
+<div class="bottom-nav">
+  <button data-view="homeView" class="active">Home</button>
+  <button data-view="postsView">Posts</button>
+  <button data-view="aiView">AI</button>
+  <button data-view="profileView">Profile</button>
+</div>
 
 <script src="main.js"></script>
+<script src="ai.js"></script>
 </body>
 </html>
