@@ -1,121 +1,66 @@
-// ===============================
-// ChristoBuzz SPA + Auth
-// ===============================
+// Phase 1 SPA navigation and demo posts
 
-import { supabase } from "./supabase.js";
-
-// Views
-const loginView = document.getElementById("loginView");
-const signupView = document.getElementById("signupView");
-const feedView = document.getElementById("feedView");
+const views = ["loginView","signupView","feedView","profileView","messagesView","marketplaceView"];
 const bottomNav = document.getElementById("bottomNav");
+const feedPosts = document.getElementById("feedPosts");
+const myPosts = document.getElementById("myPosts");
 
-// Inputs
-const loginEmail = document.getElementById("loginEmail");
-const loginPassword = document.getElementById("loginPassword");
-const signupUsername = document.getElementById("signupUsername");
-const signupEmail = document.getElementById("signupEmail");
-const signupPassword = document.getElementById("signupPassword");
+function showView(viewId) {
+  views.forEach(v => document.getElementById(v).classList.add("hidden"));
+  document.getElementById(viewId).classList.remove("hidden");
 
-// Buttons
-const goSignup = document.getElementById("goSignup");
-const goLogin = document.getElementById("goLogin");
-const loginBtn = document.getElementById("loginBtn");
-const signupBtn = document.getElementById("signupBtn");
-
-// ===============================
-// Helpers
-// ===============================
-
-function show(view) {
-  [loginView, signupView, feedView].forEach(v =>
-    v.classList.add("hidden")
-  );
-  view.classList.remove("hidden");
+  // update nav buttons
+  document.querySelectorAll("#bottomNav button").forEach(btn => {
+    btn.classList.remove("active");
+    if(btn.dataset.view === viewId) btn.classList.add("active");
+  });
 }
 
-function showApp() {
+// --- LOGIN/SIGNUP TOGGLE ---
+document.getElementById("goSignup").addEventListener("click", e => {
+  e.preventDefault();
+  showView("signupView");
+});
+
+document.getElementById("goLogin").addEventListener("click", e => {
+  e.preventDefault();
+  showView("loginView");
+});
+
+// --- LOGIN/SIGNUP DEMO ---
+document.getElementById("loginBtn").addEventListener("click", () => {
+  showView("feedView");
   bottomNav.classList.remove("hidden");
-}
+});
 
-function showAuth() {
-  bottomNav.classList.add("hidden");
-}
+document.getElementById("signupBtn").addEventListener("click", () => {
+  showView("feedView");
+  bottomNav.classList.remove("hidden");
+});
 
-// ===============================
-// Initial Load
-// ===============================
+// --- NAVIGATION ---
+document.querySelectorAll("#bottomNav button").forEach(btn => {
+  btn.addEventListener("click", () => showView(btn.dataset.view));
+});
 
-show(loginView);
-showAuth();
+// --- POSTS ---
+document.getElementById("addPostBtn").addEventListener("click", () => {
+  const text = document.getElementById("newPostText").value.trim();
+  if(text) {
+    const postDiv = document.createElement("div");
+    postDiv.className = "feed-post";
+    postDiv.innerHTML = `<strong>You</strong><p>${text}</p>`;
+    feedPosts.prepend(postDiv);
+    
+    // Also add to MyPosts
+    const myPostDiv = postDiv.cloneNode(true);
+    myPosts.prepend(myPostDiv);
 
-// ===============================
-// Navigation
-// ===============================
-
-goSignup.onclick = e => {
-  e.preventDefault();
-  show(signupView);
-};
-
-goLogin.onclick = e => {
-  e.preventDefault();
-  show(loginView);
-};
-
-// ===============================
-// LOGIN
-// ===============================
-
-loginBtn.onclick = async () => {
-  const { error } = await supabase.auth.signInWithPassword({
-    email: loginEmail.value,
-    password: loginPassword.value
-  });
-
-  if (error) {
-    alert(error.message);
-    return;
-  }
-
-  show(feedView);
-  showApp();
-};
-
-// ===============================
-// SIGNUP
-// ===============================
-
-signupBtn.onclick = async () => {
-  const { error } = await supabase.auth.signUp({
-    email: signupEmail.value,
-    password: signupPassword.value,
-    options: {
-      data: {
-        username: signupUsername.value
-      }
-    }
-  });
-
-  if (error) {
-    alert(error.message);
-    return;
-  }
-
-  alert("Account created. You can now log in.");
-  show(loginView);
-};
-
-// ===============================
-// Session Persistence
-// ===============================
-
-supabase.auth.onAuthStateChange((event, session) => {
-  if (session) {
-    show(feedView);
-    showApp();
-  } else {
-    show(loginView);
-    showAuth();
+    document.getElementById("newPostText").value = "";
   }
 });
+
+// --- PROFILE DEMO DATA ---
+document.getElementById("profileUsername").innerText = "Demo User";
+document.getElementById("profileBio").innerText = "Welcome to your profile 🐝";
+document.getElementById("profileAvatar").src = "https://i.pravatar.cc/100";
