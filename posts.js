@@ -1,15 +1,11 @@
-// posts.js — ChristoBuzz Posts System (Phase 3)
+let posts = [];
 
-const posts = []; // demo storage (later Supabase)
-
-function addPost(text) {
-  if (!text.trim()) return;
-
+function addPost(text, file) {
   const post = {
-    id: Date.now(),
-    user: "Demo User",
-    content: text,
-    time: new Date().toLocaleTimeString()
+    text,
+    media: file ? URL.createObjectURL(file) : null,
+    type: file?.type.startsWith("video") ? "video" : "image",
+    time: Date.now()
   };
 
   posts.unshift(post);
@@ -17,19 +13,40 @@ function addPost(text) {
 }
 
 function renderPosts() {
-  const feed = document.getElementById("feedPosts");
-  if (!feed) return;
+  const postsDiv = document.getElementById("posts");
+  const videoFeed = document.getElementById("videoFeed");
 
-  feed.innerHTML = "";
+  postsDiv.innerHTML = "";
+  videoFeed.innerHTML = "";
 
   posts.forEach(post => {
     const div = document.createElement("div");
-    div.className = "feed-post";
-    div.innerHTML = `
-      <strong>${post.user}</strong>
-      <p>${post.content}</p>
-      <small>${post.time}</small>
-    `;
-    feed.appendChild(div);
+    div.className = "post";
+
+    if (post.text) {
+      const p = document.createElement("p");
+      p.textContent = post.text;
+      div.appendChild(p);
+    }
+
+    if (post.media) {
+      if (post.type === "video") {
+        const video = document.createElement("video");
+        video.src = post.media;
+        video.controls = true;
+        video.loop = true;
+        div.appendChild(video);
+
+        const reel = video.cloneNode(true);
+        reel.controls = true;
+        videoFeed.appendChild(reel);
+      } else {
+        const img = document.createElement("img");
+        img.src = post.media;
+        div.appendChild(img);
+      }
+    }
+
+    postsDiv.appendChild(div);
   });
 }
