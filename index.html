@@ -8,137 +8,182 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
+    :root {
+      --bg: #ffffff;
+      --text: #111;
+      --card: #f2f2f2;
+      --accent: #f5b301;
+    }
+
+    body.dark {
+      --bg: #0e0e0e;
+      --text: #ffffff;
+      --card: #1a1a1a;
+    }
+
+    * {
       margin: 0;
-      font-family: Inter, sans-serif;
-      background: #0f0f0f;
-      color: #fff;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
-    .view {
-      display: none;
-      padding: 16px;
+    body {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    #app {
+      max-width: 430px;
+      margin: auto;
       min-height: 100vh;
+      padding-bottom: 70px;
     }
 
-    .view.active {
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      font-size: 20px;
+      font-weight: 700;
+      border-bottom: 1px solid #ccc;
+    }
+
+    header button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .page {
+      display: none;
+      padding: 15px;
+    }
+
+    .page.active {
       display: block;
     }
 
-    /* Bottom Nav */
-    .bottom-nav {
+    .post-box {
+      background: var(--card);
+      padding: 12px;
+      border-radius: 14px;
+      margin-bottom: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      resize: none;
+      font-size: 15px;
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .post-actions button {
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .post {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .post img,
+    .post video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 8px;
+    }
+
+    nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 60px;
-      background: #111;
+      background: var(--bg);
+      border-top: 1px solid #ccc;
       display: flex;
       justify-content: space-around;
-      align-items: center;
-      border-top: 1px solid #222;
+      padding: 10px 0;
     }
 
-    .bottom-nav button {
+    nav button {
       background: none;
       border: none;
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .bottom-nav button.active {
-      color: #f5b301;
       font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
     }
 
-    /* TikTok-style posts */
-    .video-post {
-      height: 85vh;
-      background: #000;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #777;
-      font-size: 18px;
-    }
-
-    /* AI Chat */
-    .chat-box {
-      max-width: 600px;
-      margin: auto;
-    }
-
-    .message {
-      margin: 10px 0;
-      padding: 10px 14px;
-      border-radius: 14px;
-      max-width: 80%;
-    }
-
-    .user {
-      background: #f5b301;
-      color: #000;
-      margin-left: auto;
-    }
-
-    .ai {
-      background: #222;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      margin-top: 10px;
+    nav button.active {
+      color: var(--accent);
     }
   </style>
 </head>
 
 <body>
+<div id="app">
 
-<!-- HOME -->
-<div id="homeView" class="view active">
-  <h2>Home</h2>
-  <p>Feed coming next phase</p>
-</div>
+  <header>
+    🐝 ChristoBuzz
+    <button id="themeToggle">Dark</button>
+  </header>
 
-<!-- POSTS (TikTok style) -->
-<div id="postsView" class="view">
-  <div class="video-post">
-    Vertical Video Feed (TikTok Style)
-  </div>
-</div>
-
-<!-- AI -->
-<div id="aiView" class="view">
-  <h2>🤖 Crystal AI</h2>
-
-  <div class="chat-box" id="chatBox">
-    <div class="message ai">
-      Hi 👋 I’m Crystal AI. Ask me anything.
+  <!-- HOME FEED -->
+  <section id="feed" class="page active">
+    <div class="post-box">
+      <textarea id="postText" placeholder="What's buzzing? 🐝"></textarea>
+      <div class="post-actions">
+        <input type="file" id="postMedia" hidden accept="image/*,video/*">
+        <button onclick="document.getElementById('postMedia').click()">Media</button>
+        <button id="postBtn">Post</button>
+      </div>
     </div>
-  </div>
+    <div id="posts"></div>
+  </section>
 
-  <input id="aiInput" placeholder="Ask Crystal AI..." />
+  <!-- REELS / VIDEOS -->
+  <section id="videos" class="page">
+    <div id="videoFeed"></div>
+  </section>
+
+  <!-- MESSAGES -->
+  <section id="messages" class="page">
+    <p>Messages coming soon…</p>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile" class="page">
+    <p>Profile coming soon…</p>
+  </section>
+
 </div>
 
-<!-- PROFILE -->
-<div id="profileView" class="view">
-  <h2>Profile</h2>
-  <p>Your profile file will connect here.</p>
-</div>
+<nav>
+  <button class="active" data-page="feed">Home</button>
+  <button data-page="videos">Reels</button>
+  <button data-page="messages">Messages</button>
+  <button data-page="profile">Profile</button>
+</nav>
 
-<!-- NAV -->
-<div class="bottom-nav">
-  <button data-view="homeView" class="active">Home</button>
-  <button data-view="postsView">Posts</button>
-  <button data-view="aiView">AI</button>
-  <button data-view="profileView">Profile</button>
-</div>
-
+<script src="posts.js"></script>
 <script src="main.js"></script>
-<script src="ai.js"></script>
 </body>
 </html>
