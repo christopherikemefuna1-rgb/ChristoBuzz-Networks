@@ -1,36 +1,23 @@
-// Navigation
-const navButtons = document.querySelectorAll("nav button");
-const pages = document.querySelectorAll(".page");
+import { authInit } from './supabase.js'
+import { loadPosts } from './posts.js'
+import { loadStories } from './stories.js'
+import { loadReels } from './reels.js'
+import { loadMessages } from './messages.js'
+import { loadMarketplace } from './marketplace.js'
+import { loadProfile } from './profile.js'
 
-navButtons.forEach(btn => {
+authInit()
+
+document.querySelectorAll('nav button').forEach(btn => {
   btn.onclick = () => {
-    navButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    pages.forEach(p => p.classList.remove("active"));
-    document.getElementById(btn.dataset.page).classList.add("active");
-  };
-});
-
-// Theme Toggle
-const themeToggle = document.getElementById("themeToggle");
-
-themeToggle.onclick = () => {
-  document.body.classList.toggle("dark");
-  themeToggle.textContent =
-    document.body.classList.contains("dark") ? "Light" : "Dark";
-};
-
-// Posting
-document.getElementById("postBtn").onclick = () => {
-  const text = document.getElementById("postText").value.trim();
-  const mediaInput = document.getElementById("postMedia");
-  const file = mediaInput.files[0];
-
-  if (!text && !file) return;
-
-  addPost(text, file);
-
-  document.getElementById("postText").value = "";
-  mediaInput.value = "";
-};
+    const page = btn.dataset.page
+    if (page === 'home') {
+      loadStories()
+      loadPosts()
+    }
+    if (page === 'reels') loadReels()
+    if (page === 'messages') loadMessages()
+    if (page === 'marketplace') loadMarketplace()
+    if (page === 'profile') loadProfile()
+  }
+})
