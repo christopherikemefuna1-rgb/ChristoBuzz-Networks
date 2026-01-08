@@ -1,52 +1,12 @@
-let posts = [];
+import { supabase } from './supabase.js'
 
-function addPost(text, file) {
-  const post = {
-    text,
-    media: file ? URL.createObjectURL(file) : null,
-    type: file?.type.startsWith("video") ? "video" : "image",
-    time: Date.now()
-  };
+export async function loadPosts() {
+  const app = document.getElementById('app')
+  app.innerHTML = `<h2>Home</h2><div id="posts"></div>`
 
-  posts.unshift(post);
-  renderPosts();
-}
+  const { data } = await supabase.from('posts').select('*').order('created_at',{ascending:false})
 
-function renderPosts() {
-  const postsDiv = document.getElementById("posts");
-  const videoFeed = document.getElementById("videoFeed");
-
-  postsDiv.innerHTML = "";
-  videoFeed.innerHTML = "";
-
-  posts.forEach(post => {
-    const div = document.createElement("div");
-    div.className = "post";
-
-    if (post.text) {
-      const p = document.createElement("p");
-      p.textContent = post.text;
-      div.appendChild(p);
-    }
-
-    if (post.media) {
-      if (post.type === "video") {
-        const video = document.createElement("video");
-        video.src = post.media;
-        video.controls = true;
-        video.loop = true;
-        div.appendChild(video);
-
-        const reel = video.cloneNode(true);
-        reel.controls = true;
-        videoFeed.appendChild(reel);
-      } else {
-        const img = document.createElement("img");
-        img.src = post.media;
-        div.appendChild(img);
-      }
-    }
-
-    postsDiv.appendChild(div);
-  });
+  data?.forEach(p => {
+    app.innerHTML += `<div class="post">${p.content}</div>`
+  })
 }
