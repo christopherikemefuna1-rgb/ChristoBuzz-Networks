@@ -6,42 +6,104 @@ import { loadMessages } from './messages.js';
 import { loadMarketplace } from './marketplace.js';
 import { loadProfile } from './profile.js';
 import { loadMusic } from './music.js';
-import './adnetwork.js';
-import './ai.js';
 
-window.addPost = addPost;
+// ================================
+// AUTH STATE LISTENER
+// ================================
+supabase.auth.onAuthStateChange((event, session) => {
+  const user = session?.user;
+  if(user) {
+    showHome();
+  } else {
+    showAuth();
+  }
+});
 
-window.showPage = (page) => {
-  if (page === 'feed') loadPosts();
-  if (page === 'stories') loadStories();
-  if (page === 'reels') loadReels();
-  if (page === 'messages') loadMessages();
-  if (page === 'marketplace') loadMarketplace();
-  if (page === 'profile') loadProfile();
-  if (page === 'music') loadMusic();
-};
+// Initial check
+(async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if(user) showHome();
+  else showAuth();
+})();
 
-document.getElementById('signupBtn').onclick = async () => {
-  const email = email.value;
-  const password = password.value;
-  const username = usernameInput.value;
+// ================================
+// SHOW AUTH PAGE
+// ================================
+function showAuth() {
+  document.getElementById('app').innerHTML = `
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2>ChristoBuzz</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <input type="text" id="username" placeholder="Username (signup only)">
+        <button id="signupBtn">Sign Up</button>
+        <button id="loginBtn">Login</button>
+      </div>
+    </div>
+  `;
 
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) return alert(error.message);
+  // SIGNUP
+  document.getElementById('signupBtn').onclick = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
 
-  await supabase.from('profiles').insert({
-    id: data.user.id,
-    username
-  });
+    if(!email || !password || !username) return alert('Fill all fields');
 
-  alert('Signed up');
-};
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if(error) return alert(error.message);
 
-document.getElementById('loginBtn').onclick = async () => {
-  const { error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  });
-  if (error) alert(error.message);
-  else loadPosts();
-};
+    // Create profile with username
+    await supabase.from('profiles').insert([{ id: data.user.id, username }]);
+
+    alert('Signed up successfully. Please log in.');
+  };
+
+  // LOGIN
+  document.getElementById('loginBtn').onclick = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if(error) return alert(error.message);
+
+    alert('Logged in successfully');
+  };
+}
+
+// ================================
+// SHOW HOME PAGE
+// ================================
+function showHome() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <header><h1>ChristoBuzz</h1></header>
+
+    <div id="storyRow"></div>
+    <div id="feedPosts"></div>
+
+    <nav>
+      <button id="homeBtn">🏠 Home</button>
+      <button id="reelsBtn">🎥 Reels</button>
+      <button id="messagesBtn">💬 Messages</button>
+      <button id="marketBtn">🛒 Marketplace</button>
+      <button id="profileBtn">👤 Profile</button>
+    </nav>
+  `;
+
+  // Load initial content
+  loadStories();
+  loadPosts();
+
+  // NAV BUTTONS
+  document.getElementById('homeBtn').onclick = () => {
+    loadStories();
+    loadPosts();
+  };
+
+  document.getElementById('reelsBtn').onclick = loadReels;
+  document.getElementById('messagesBtn').onclick = loadMessages;
+  document.getElementById('marketBtn').onclick = loadMarketplace;
+  document.getElementById('profileBtn').onclick = loadProfile;
+}
