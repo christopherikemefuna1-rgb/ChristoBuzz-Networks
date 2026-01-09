@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChristoBuzz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <h1>ChristoBuzz</h1>
+  <nav>
+    <button onclick="showPage('feed')">Feed</button>
+    <button onclick="showPage('stories')">Stories</button>
+    <button onclick="showPage('reels')">Reels</button>
+    <button onclick="showPage('messages')">Messages</button>
+    <button onclick="showPage('music')">Music</button>
+    <button onclick="showPage('marketplace')">Marketplace</button>
+    <button onclick="showPage('profile')">Profile</button>
+  </nav>
+</header>
+
+<section id="auth">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <input id="username" placeholder="Username (signup only)">
+  <button id="signupBtn">Sign Up</button>
+  <button id="loginBtn">Login</button>
+</section>
+
+<section id="app">
+  <div id="feed">
+    <textarea id="newPostText" placeholder="What's on your mind?"></textarea>
+    <button onclick="addPost()">Post</button>
+    <div id="feedPosts"></div>
+  </div>
+
+  <div id="storyRow"></div>
+</section>
+
+<script type="module" src="main.js"></script>
+</body>
+</html>
