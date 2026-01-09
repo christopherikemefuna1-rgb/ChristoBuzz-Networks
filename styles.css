@@ -245,21 +245,79 @@ nav button.active {
 }
 
 /* =========================
-   PROFILE
+   PROFILE (FB + IG HYBRID)
 ========================= */
-.profile-header {
-  background: var(--card);
-  padding: 20px;
-  text-align: center;
+.profile {
+  max-width: 900px;
+  margin: auto;
 }
 
-.profile-header img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
+.profile-cover img {
+  width: 100%;
+  height: 300px;
   object-fit: cover;
 }
 
-.profile-header h3 {
-  margin: 10px 0 4px;
+.profile-header {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  margin-top: -75px;
+  background: var(--card);
+  border-radius: var(--radius);
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid white;
+  object-fit: cover;
+  background: #fff;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-bio {
+  color: #555;
+  margin: 8px 0;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.profile-stats span {
+  font-size: 14px;
+}
+
+.edit-btn {
+  padding: 6px 14px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profile-posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.profile-post img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.no-posts {
+  text-align: center;
+  color: #777;
 }
