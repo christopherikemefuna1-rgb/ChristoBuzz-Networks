@@ -1,11 +1,11 @@
-import { showAuth, showHome } from './app.js';
-import { supabase } from './supabase.js';
+import { showAuth, showHome, showGuestHome } from './app.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) {
-    showHome();
+document.addEventListener('DOMContentLoaded', () => {
+  const guestViews = Number(localStorage.getItem('guestViews') || 0);
+
+  if (guestViews < 5) {
+    showGuestHome(); // allow limited guest browsing
   } else {
-    showAuth();
+    showAuth(); // force login/signup
   }
 });
