@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChristoBuzz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <!-- Main app container -->
+  <div id="app"></div>
 
-  <!-- Navigation -->
-  <nav id="nav">
-    <button data-page="posts">Posts</button>
-    <button data-page="stories">Stories</button>
-    <button data-page="reels">Reels</button>
-    <button data-page="messages">Messages</button>
-    <button data-page="marketplace">Market</button>
-    <button data-page="music">Music</button>
-    <button data-page="profile">Profile</button>
-    <button data-page="notifications">Notifications</button>
+  <!-- Bottom navigation (hidden until login) -->
+  <nav>
+    <button data-target="posts">Posts</button>
+    <button data-target="stories">Stories</button>
+    <button data-target="reels">Reels</button>
+    <button data-target="chat">Chat</button>
+    <button data-target="marketplace">Market</button>
+    <button data-target="profile">Profile</button>
+    <button data-target="music">Music</button>
+    <button data-target="ads">Ads</button>
+    <button data-target="ai">AI</button>
+    <button data-target="notifications">Notifications</button>
   </nav>
 
-  <!-- App root -->
-  <main id="app"></main>
-
-  <!-- ONLY SCRIPT LOADED -->
+  <!-- Main JS file -->
   <script type="module" src="./main.js"></script>
-
 </body>
 </html>
